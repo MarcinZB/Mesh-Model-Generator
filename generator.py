@@ -90,7 +90,7 @@ def csv_convert():
     else:
         print("Calculating...")
         tools.las_to_ascii(selected_file)
-
+    
     catalog_of_file = os.path.dirname(selected_file)
     print("The file is placed in:" f"{catalog_of_file}")
 
@@ -120,7 +120,6 @@ def csv_convert():
     print(f"Final csv:\n {additional_delete_csv}")
     converted_file = additional_delete_csv.to_csv(
         f"{selected_output_folder}/{name_of_file}_converted.xyz", index=False, sep=" ")
-
 
 def normals_generation():
 
