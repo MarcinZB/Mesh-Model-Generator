@@ -56,10 +56,3 @@ csv_wo_normals['Nz'] = normals_three_nz
 csv_wo_normals.to_csv(f"{selected_output_folder}/{name_of_file}_w_normals.xyz", index=False, sep=" ")
 
 print(csv_wo_normals)
-
-point_cloud = np.loadtxt(csv_wo_normals, skiprows=1)
-pcd = od.geometry.PointCloud()
-pcd.points = od.utility.Vector3dVector(point_cloud[:, :3])
-pcd.colors = od.utility.Vector3dVector(point_cloud[:, 3:6] / 255)
-pcd.normals = od.utility.Vector3dVector(point_cloud[:, 6:9])
-od.visualization.draw_geometries([pcd], point_show_normal=True)
