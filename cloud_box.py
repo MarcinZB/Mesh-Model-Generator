@@ -108,11 +108,6 @@ coordinate_Y_of_third_extreme_point_maximum = float(point3_max[0,[1]])
 coordinate_Z_of_third_extreme_point_maximum = float(point3_max[0,[2]])
 point_max_3 = [coordinate_X_of_third_extreme_point_maximum,coordinate_Y_of_third_extreme_point_maximum,coordinate_Z_of_third_extreme_point_maximum]
 
-print(f"\nX range: ({minimum_value_x};{maximum_value_x})")
-print(f"\nY range: ({minimum_value_y};{maximum_value_y})")
-print(f"\nZ range: ({minimum_value_z};{maximum_value_z})")
-print(f"Points:\n {point_max_1},{point_max_2},{point_max_3},{point_min_1},{point_min_2},{point_min_3}")
-
 punkt_A = [(maximum_value_x+2), (maximum_value_y+2), (maximum_value_z+2)]
 punkt_B = [(minimum_value_x-2),punkt_A[1], punkt_A[2]]
 length_of_line = (math.fabs(punkt_A[0])+math.fabs(punkt_B[0]))
@@ -122,6 +117,7 @@ punkt_E = [punkt_D[0],punkt_D[1],(punkt_D[2]+length_of_line)]
 punkt_F = [(punkt_E[0]+length_of_line),punkt_E[1],punkt_E[2]]
 punkt_G = [punkt_F[0],punkt_F[1],(punkt_F[2]-length_of_line)]
 punkt_H = [punkt_G[0], (punkt_G[1]+length_of_line), punkt_G[2]]
+
 print(punkt_A)
 print(punkt_B)
 print(punkt_C)
@@ -130,6 +126,23 @@ print(punkt_E)
 print(punkt_F)
 print(punkt_G)
 print(punkt_H)
+
 length_of_line_2 = (math.fabs(punkt_C[2])+math.fabs(punkt_B[2]))
-print(length_of_line)
-print(length_of_line_2)
+
+
+diagonal_middle_point_1 = [((punkt_A[0]+punkt_G[0])/2),((punkt_A[1]+
+punkt_G[1])/2),((punkt_A[2]+punkt_G[2])/2)]
+diagonal_middle_point_2 = [((punkt_B[0]+punkt_H[0])/2),((punkt_B[1]+
+punkt_H[1])/2),((punkt_B[2]+punkt_H[2])/2)]
+diagonal_middle_point_3 = [((punkt_E[0]+punkt_C[0])/2),((punkt_E[1]+
+punkt_C[1])/2),((punkt_E[2]+punkt_C[2])/2)]
+diagonal_middle_point_4 = [((punkt_F[0]+punkt_D[0])/2),((punkt_F[1]+
+punkt_D[1])/2),((punkt_F[2]+punkt_D[2])/2)]
+diagonal_middle_point_5 = [((punkt_A[0]+punkt_E[0])/2),((punkt_A[1]+
+punkt_E[1])/2),((punkt_A[2]+punkt_E[2])/2)]
+
+print(diagonal_middle_point_1)
+print(diagonal_middle_point_2)
+print(diagonal_middle_point_3)
+print(diagonal_middle_point_4)
+print(diagonal_middle_point_5)
