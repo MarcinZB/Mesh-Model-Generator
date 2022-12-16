@@ -8,6 +8,11 @@ from pathlib import Path
 import math
 
 points = []
+d1 = ""
+d2 = ""
+d3 = ""
+d4 = ""
+d5 = ""
 
 filename = filedialog.askopenfilename(initialdir="/",
                                           title="Select a File",
@@ -49,9 +54,6 @@ maximum_value_y, maximum_value_z]
 
 minimum_value = min(list_of_value)
 max_value = max(list_of_value)
-
-line_length = ((math.fabs(minimum_value)+2)+(math.fabs(max_value)+2))
-print(line_length)
 
 maskXmax = csv_wo_normals["X" or "x"] == maximum_value_x
 maskYmax = csv_wo_normals["Y" or "y"] == maximum_value_y
@@ -118,17 +120,7 @@ punkt_F = [(punkt_E[0]+length_of_line),punkt_E[1],punkt_E[2]]
 punkt_G = [punkt_F[0],punkt_F[1],(punkt_F[2]-length_of_line)]
 punkt_H = [punkt_G[0], (punkt_G[1]+length_of_line), punkt_G[2]]
 
-print(punkt_A)
-print(punkt_B)
-print(punkt_C)
-print(punkt_D)
-print(punkt_E)
-print(punkt_F)
-print(punkt_G)
-print(punkt_H)
-
 length_of_line_2 = (math.fabs(punkt_C[2])+math.fabs(punkt_B[2]))
-
 
 diagonal_middle_point_1 = [((punkt_A[0]+punkt_G[0])/2),((punkt_A[1]+
 punkt_G[1])/2),((punkt_A[2]+punkt_G[2])/2)]
@@ -141,15 +133,46 @@ punkt_D[1])/2),((punkt_F[2]+punkt_D[2])/2)]
 diagonal_middle_point_5 = [((punkt_A[0]+punkt_E[0])/2),((punkt_A[1]+
 punkt_E[1])/2),((punkt_A[2]+punkt_E[2])/2)]
 
-print(diagonal_middle_point_1)
-print(diagonal_middle_point_2)
-print(diagonal_middle_point_3)
-print(diagonal_middle_point_4)
-print(diagonal_middle_point_5)
 
-print(point_max_1)
-print(point_max_2)
-print(point_max_3)
-print(point_min_1)
-print(point_min_2)
-print(point_min_3)
+
+csv_wo_normals["d1"] = np.sqrt((diagonal_middle_point_1[0]+csv_wo_normals["X" or "x"])**2+
+(diagonal_middle_point_1[1]+csv_wo_normals["X" or "x"])**2+
+(diagonal_middle_point_1[2]+csv_wo_normals["X" or "x"])**2)
+
+csv_wo_normals["d2"] = np.sqrt((diagonal_middle_point_2[0]+csv_wo_normals["X" or "x"])**2+
+(diagonal_middle_point_2[1]+csv_wo_normals["X" or "x"])**2+
+(diagonal_middle_point_2[2]+csv_wo_normals["X" or "x"])**2)
+
+csv_wo_normals["d3"] = np.sqrt((diagonal_middle_point_3[0]+csv_wo_normals["X" or "x"])**2+
+(diagonal_middle_point_3[1]+csv_wo_normals["X" or "x"])**2+
+(diagonal_middle_point_3[2]+csv_wo_normals["X" or "x"])**2)
+
+csv_wo_normals["d4"] = np.sqrt((diagonal_middle_point_4[0]+csv_wo_normals["X" or "x"])**2+
+(diagonal_middle_point_4[1]+csv_wo_normals["X" or "x"])**2+
+(diagonal_middle_point_4[2]+csv_wo_normals["X" or "x"])**2)
+
+csv_wo_normals["d5"] = np.sqrt((diagonal_middle_point_5[0]+csv_wo_normals["X" or "x"])**2+
+(diagonal_middle_point_5[1]+csv_wo_normals["X" or "x"])**2+
+(diagonal_middle_point_5[2]+csv_wo_normals["X" or "x"])**2)
+
+pcd.estimate_normals(search_param=od.geometry.KDTreeSearchParamHybrid(radius=0.008, max_nn=6))
+
+normals_show = pcd.normals
+normals_array = np.asarray(normals_show)
+print(normals_array)
+
+for i in csv_wo_normals.index:
+    if csv_wo_normals["d1"][i]>csv_wo_normals["d2"][i] and csv_wo_normals["d1"][i]>csv_wo_normals["d3"][i] and csv_wo_normals["d1"][i]>csv_wo_normals["d4"][i] and csv_wo_normals["d1"][i]>csv_wo_normals["d5"][i]:
+        pcd.orient_normals_towards_camera_location(pcd, camera_location=np.array(diagonal_middle_point_1))
+    elif csv_wo_normals["d2"][i]>csv_wo_normals["d1"][i] and csv_wo_normals["d2"][i]>csv_wo_normals["d3"][i] and csv_wo_normals["d2"][i]>csv_wo_normals["d4"][i] and csv_wo_normals["d2"][i]>csv_wo_normals["d5"][i]:
+        pcd.orient_normals_towards_camera_location(pcd, camera_location=np.array(diagonal_middle_point_2))
+    elif csv_wo_normals["d3"][i]>csv_wo_normals["d1"][i] and csv_wo_normals["d3"][i]>csv_wo_normals["d2"][i] and csv_wo_normals["d3"][i]>csv_wo_normals["d4"][i] and csv_wo_normals["d3"][i]>csv_wo_normals["d5"][i]:
+        pcd.orient_normals_towards_camera_location(pcd, camera_location=np.array(diagonal_middle_point_3))
+    elif csv_wo_normals["d4"][i]>csv_wo_normals["d1"][i] and csv_wo_normals["d4"][i]>csv_wo_normals["d2"][i] and csv_wo_normals["d4"][i]>csv_wo_normals["d3"][i] and csv_wo_normals["d4"][i]>csv_wo_normals["d5"][i]:
+        pcd.orient_normals_towards_camera_location(pcd, camera_location=np.array(diagonal_middle_point_4))
+    elif csv_wo_normals["d5"][i]>csv_wo_normals["d1"][i] and csv_wo_normals["d5"][i]>csv_wo_normals["d2"][i] and csv_wo_normals["d5"][i]>csv_wo_normals["d3"][i] and csv_wo_normals["d5"][i]>csv_wo_normals["d4"][i]:
+        pcd.orient_normals_towards_camera_location(pcd, camera_location=np.array(diagonal_middle_point_5))
+print(csv_wo_normals)
+
+
+
